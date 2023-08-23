@@ -1,18 +1,18 @@
 -- Drop DB tallyCalCarbsDaily;
 
-use tallyCalCarbsDaily;
+-- use tallyCalCarbsDaily;
 
 Drop Table if Exists user_food;
 Drop Table if Exists food;
 Drop Table if Exists user_goals;
 Drop Table if Exists users; 
 
--- use tallyCalCarbsDaily;
 create Table users (
 	user_pk int unsigned NOT NULL auto_increment,
 	first_name varchar(50) NOT NULL,
 	last_name varchar(50) NOT NULL,
 	email varchar(60) NOT NULL,
+	phone varchar(15) NOT NULL,
 	PRIMARY KEY (user_pk)
 );
 
@@ -36,18 +36,8 @@ create Table food (
 
 create Table user_food (
 	
-    user_fk int unsigned UNIQUE,
-    food_fk int unsigned UNIQUE,
-    FOREIGN KEY (user_fk) References users (user_pk),
-    FOREIGN KEY (food_fk) References food (food_pk)
- );   
-    -- UNIQUE no dups
-    -- err on NOT
-	-- 	user_fk int unsigned UNIQUE, NOT NULL,
-	-- 	food_fk int unsigned UNIQUE, NOT NULL,
-	-- FOREIGN KEY (user_fk) References users (user_pk) on delete cascade,
-	-- FOREIGN KEY (food_fk) References food (food_pk) on delete cascade
-
--- Select * from tallyCalCarbsDaily;
-/* In an SQL statement that inserts, deletes, or updates many rows, foreign key constraints (like unique constraints) are checked row-by-row. When performing foreign key checks, InnoDB sets shared row-level locks on child or parent records that it must examine. MySQL checks foreign key constraints immediately; the check is not deferred to transaction commit. According to the SQL standard, the default behavior should be deferred checking. That is, constraints are only checked after the entire SQL statement has been processed. This means that it is not possible to delete a row that refers to itself using a foreign key.*/
-
+    user_fk int unsigned not null,
+    food_fk int unsigned not null,
+    FOREIGN KEY (user_fk) References users (user_pk) on delete cascade,
+    FOREIGN KEY (food_fk) References food (food_pk) on delete cascade
+ );      
