@@ -15,7 +15,18 @@ public class BaseTallyTest {
 	@Getter
 	private TestRestTemplate restTemplate;
 	
-	protected String getBaseUri() {
-		return String.format("http://localhost:%d/tallyCalCarbsDaily", serverPort);
+	/**
+	 * 
+	 * @return
+	 */
+	protected String getBaseUriForCustomers() {
+		return String.format("http://localhost:%d/customers", serverPort);
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	protected String getBaseUriForUsers() {
+		return String.format("http://localhost:%d/users", serverPort);
 	}
 }

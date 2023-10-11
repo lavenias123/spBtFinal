@@ -13,15 +13,15 @@ import lombok.Data;
 @AllArgsConstrutor
 
 public class Users implements Comparable<Users>{
-	private Long user_pk;
+	private int user_id;
 	private String first_name;
 	private String last_name;
 	private String email;
 	private String phone;
 	
 	@JsonIgnore
-	public Long getUserPK() {
-		return user_pk;
+	public int getUserID() {
+		return user_id;
 		
 	}
 

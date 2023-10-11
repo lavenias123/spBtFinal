@@ -2,12 +2,16 @@ package com.stewartlavenia.tally.controller;
 
 import java.util.List;
 
+import javax.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.stewartlavenia.tally.Constants;
 import com.stewartlavenia.tally.entity.Users;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -19,15 +23,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 
-//@RequestMapping("/Users")
-//@RequestMapping("/users")
-@RequestMapping("/tallyCalCarbsDaily")
+@Validated
+@RequestMapping("/users")
+//@RequestMapping("/tallyCalCarbsDaily")
 @OpenAPIDefinition(info = @Info(title = "Calorie Calculator Service"), servers = {@Server(url="http://localhost:8080", description = "Local Server")})
 public interface TallyController {
+	public static final int NAME_MAX_LENGTH = 30;
+
 	//@formatter: off
 	@Operation(
 		summary = "Returns user details",
-		description = "Given the user's first and last name it returns an email",
+		description = "Given the user's first and last name it returns contact details",
 		responses = {
 				@ApiResponse(
 						responseCode = "200", 
@@ -57,17 +63,20 @@ public interface TallyController {
 				required = false, 
 				description = "The user's last name")
 		}
-	)
+	) // end of @Operation
 
 	@GetMapping
 	@ResponseStatus(code = HttpStatus.OK)
 	List<Users> fetchUserName(
 			@RequestParam(required = false)
-			String first_name,
+				String first_name,
+			@Length(max=Constants.NAME_MAX_LENGTH)
+			@Pattern(regexp = "[\\w\\s]*")
 			@RequestParam(required = false)
-			String last_name);
-	// -- end of one mapping request ----------------------------------------------------- 
-	@Operation(
+				String last_name);
+	// @formatter:on
+	// -- ______________________end of return user's details mapping request ----------------------------------------------------- 
+	/* @Operation(
 			summary = "Returns first and last name",
 			description = "Given a valid email it returns the user's first and last name",
 			responses = {
@@ -86,7 +95,7 @@ public interface TallyController {
 							content = @Content(mediaType = "application/json")),
 					@ApiResponse(
 							responseCode = "500", 
-							description = "An unplanned error occured.", 
+							description = "An unplanned error occurred.", 
 							content = @Content(mediaType = "application/json"))
 			},
 					
@@ -97,7 +106,7 @@ public interface TallyController {
 					description = "The user's email")
 							
 			}
-)
+			) // end of @Operation
 	
 	// Lisa suggestion
 	@GetMapping("/email")
@@ -105,6 +114,8 @@ public interface TallyController {
 	List<Users> fetchUserNameByEmail(
 			@RequestParam(required = false)
 			String email);
-			
-}
+			*/
 	// @formatter:on
+			
+} // end TallyController
+	

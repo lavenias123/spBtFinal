@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class DefalultTallyDao implements TallyDao {
+public class DefaultTallyDao implements TallyDao {
 
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate; 
@@ -29,7 +29,7 @@ public class DefalultTallyDao implements TallyDao {
 		//@formatter: off
 		String sql = ""
 				+ "SELECT * "
-				+ "FROM Users "
+				+ "FROM users "
 				+ "WHERE first_name = :first_name AND last_name = :last_name";
 		//@formatter: on
 		

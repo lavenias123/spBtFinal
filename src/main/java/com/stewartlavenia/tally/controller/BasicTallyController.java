@@ -24,10 +24,11 @@ public class BasicTallyController implements TallyController {
 //		return first last;
 	}
 
+	/*
+	// commented this test out in FetchTallyTest
 	@Override
 	public List<Users> fetchUserNameByEmail(String email) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
+	*/
 }
