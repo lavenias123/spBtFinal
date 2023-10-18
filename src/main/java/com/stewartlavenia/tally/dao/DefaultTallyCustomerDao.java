@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.stewartlavenia.tally.entity.Customer;
 import com.stewartlavenia.tally.entity.Food;
 import com.stewartlavenia.tally.entity.MealType;
+import com.stewartlavenia.tally.entity.UserFood;
 import com.stewartlavenia.tally.entity.UserGoals;
 import com.stewartlavenia.tally.entity.Users;
 
@@ -29,7 +30,11 @@ public class DefaultTallyCustomerDao implements TallyCustomerDao {
 		String sql = " "
 				+ "SELECT * "
 				+ "FROM users "
-				+ "WHERE user_id = 9";
+//				+ "WHERE user_id = 5";
+		// causes 500 err
+				+ "WHERE user_id = :user_id "
+		// err doesn't join bad syntax
+				+ "JOIN user_goals USING (user_id) ";
 		
 		Map<String, Object> params = new HashMap<>();
 		params.put("user_id", userId);
@@ -136,14 +141,53 @@ public class DefaultTallyCustomerDao implements TallyCustomerDao {
 						.build();
 				//@formatter:on
 			}
+		} // end FoodResultSetExtractor (c)
+	
+	@Override
+	public UserFood fetchUserFood(int userFk, int foodFk) {
+		
+		String sql = ""
+				+ "SELECT * "
+				+ "FROM user_food "
+				+ "WHERE user_fk = :user_fk"
+				+ "AND food_fk = :food_fk ";
+		
+		Map<String, Object> params = new HashMap<>();
+		
+		params.put("user_fk", userFk);
+		params.put("food_fk", foodFk);
+		
+		return jdbcTemplate.query(sql, params, new UserFoodResultSetExtractor());
+	}
+	
+	public class UserFoodResultSetExtractor implements ResultSetExtractor<UserFood>{
+
+		@Override
+		public UserFood extractData(ResultSet rs) throws SQLException, DataAccessException {
+			rs.next();
+			return UserFood.builder()
+					// @formatter:off
+					.foodFk(rs.getInt("user_food"))
+					.userFk(rs.getInt("user_fk"))
+					.build();
+					// @formatter:on
 		}
+
+	}
+	
+//	public UserFood jdbcTemplate(String sql, Map<String, Object> params,
+//			UserFoodResultSetExtractor userFoodResultSetExtractor) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
 	
 	// ------------------- when removed my super class goes red
-		@Override
-		public List<Users> fetchTally(String first_name, String last_name) {
-			
-			return null;
-		}
+//		@Override
+//		public List<Users> fetchTally(String first_name, String last_name) {
+//			
+//			return null;
+//		}
 
 
 	

@@ -50,7 +50,7 @@ class FetchTallyTest extends FetchTallyTestSupport {
 			String email = "biten@district112.org";
 			String first_name = "David";
 			String last_name = "Biten";
-			String uri = String.format("%s?first_name=%s&last_name=%s", getBaseUri(), first_name, last_name);
+			String uri = String.format("%s?first_name=%s&last_name=%s", getBaseUriForUsers(), first_name, last_name);
 			
 			//When a connection is made to the uri
 			ResponseEntity<List<Users>> response = 
@@ -66,6 +66,9 @@ class FetchTallyTest extends FetchTallyTestSupport {
 			List<Users> expected = buildExpected();
 			
 		}
+		/* String uri = String.format("http://localhost:%d/jeeps?model=%s&trim=%s", serverPort, model, trim);
+
+		 */
 		
 		@Test
 		void testThatAnErrorMessageIsReturnedWhenAnUnknownLastNamesIsSupplied() {
@@ -75,7 +78,7 @@ class FetchTallyTest extends FetchTallyTestSupport {
 			String first_name = "David";
 			String last_name = "An unknown Last Name";
 
-			String uri = String.format("%s?first_name=%s&last_name=%s", getBaseUri(), first_name, last_name);
+			String uri = String.format("%s?first_name=%s&last_name=%s", getBaseUriForUsers(), first_name, last_name);
 			
 			//When a connection is made to the uri
 			ResponseEntity <Map<String, Object>> response = 
@@ -101,7 +104,7 @@ class FetchTallyTest extends FetchTallyTestSupport {
 //			String email = "biten@district112.org";
 			
 			// removed last_name & first because they're coming in as params
-			String uri = String.format("%s?first_name=%s&last_name=%s", getBaseUri(), first_name, last_name);
+			String uri = String.format("%s?first_name=%s&last_name=%s", getBaseUriForUsers(), first_name, last_name);
 			
 			//When a connection is made to the uri
 			ResponseEntity <Map<String, Object>> response = 
@@ -136,10 +139,6 @@ class FetchTallyTest extends FetchTallyTestSupport {
 			);
 	}
 	
-	public Object getBaseUri() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Nested
 	@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -160,7 +159,7 @@ class FetchTallyTest extends FetchTallyTestSupport {
 			String first_name = "David";
 			String last_name = "An INVALID Last Name";
 
-			String uri = String.format("%s?first_name=%s&last_name=%s", getBaseUri(), first_name, last_name);
+			String uri = String.format("%s?first_name=%s&last_name=%s", getBaseUriForUsers(), first_name, last_name);
 			
 			doThrow(new RuntimeException("Ouch!")).when(tallyService).fetchTally(first_name, last_name);
 			

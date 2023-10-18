@@ -54,7 +54,7 @@ class CreateNewCustomerTest extends CreateNewCustomerTestSupport{
 		
 		CustomerRequest customer = response.getBody();
 		assertThat(customer.getFirst_name()).isEqualTo("Jennifer");
-		assertThat(customer.getFirst_name()).isEqualTo("Daniels");
+		assertThat(customer.getLast_name()).isEqualTo("Daniels");
 		assertThat(customer.getEmail()).isEqualTo("email");
 		assertThat(customer.getPhone()).isEqualTo("709-444-6228");
 		assertThat(customer.getCalorie_limit()).isEqualTo(1800);
